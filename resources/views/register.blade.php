@@ -16,7 +16,7 @@
 		placeholder="Name..."
 		value="{{old('name')}}"
 	/>
-
+<!-- -->
 	<input 
 	type="password" name="password"
 	placeholder="Enter password..." 
@@ -34,3 +34,4 @@
 {{csrf_field()}}
 </form>
 @endsection
+
