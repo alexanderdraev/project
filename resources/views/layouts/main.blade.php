@@ -46,7 +46,7 @@
     
     <div id="footer" class="bg-light">
         <footer>
-        &copy; 2018 SNP by Niya Drqnkova, Alex Draev and Kiril Datkov
+        &copy; 2018 SNP by Niya Dryankova, Alex Draev and Kiril Datkov
         </footer>
     </div>
     

@@ -16,7 +16,7 @@
         <a class="nav-link" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
       </li>
       
-      <li class="nav-item">
+     <li class="nav-item">
         <a class="nav-link" href="{{route('posts.index')}}">List Posts</a>
       </li>
       @auth
@@ -28,19 +28,19 @@
       @endif
       
       <li class="nav-item">
-        <a class="nav-link" href="{{route('logout')}}">Logout</a>
+        <a class="nav-link" href="#{{--{{route('logout')}}--}}">Logout</a>
       </li>
       @endauth
 
       @guest
       <li class="nav-item">
-      	<a class="nav-link" href="{{route('login')}}">
+      	<a class="nav-link" href="{{route('users.login')}}">
       		Login
       	</a>
       </li>
 
       <li class="nav-item">
-      	<a class="nav-link" href="{{route('register-user')}}">
+      	<a class="nav-link" href="{{route('users.create')}}">
       		Register
       	</a>
       </li>
