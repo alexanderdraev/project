@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $table = 'posts';
-    protected $fillable = ['title', 'content', 'category_id', 'user_id'];
+    protected $fillable = ['title', 'content', 'category_id', 'user_id','imagePath'];
+
     public function comments()
     {
         return $this->hasMany('App\Models\Comment', 'post_id', 'id');
@@ -21,7 +22,7 @@ class Post extends Model
     }
     
     public function getCommentsCountAttribute() {
-        return $this->comments->count();
+        return $this->comments()->count();
     } 
     
 }
