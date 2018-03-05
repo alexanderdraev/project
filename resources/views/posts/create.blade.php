@@ -11,17 +11,15 @@
         <input type="text" name="title" placeholder="Post title" value="{{old('title',$post->title)}}"/><br/>
         <textarea name="content">{{old('content',$post->content)}}</textarea><br/>
         <select name="category">
+            <option value="">Select a category</option>
             @foreach($categories->all() as $category)
                 @if($post->category_id>0 && $post->category_id === $category->id)
+                <option selected value="{{$category->category_name}}">{{$category->category_name}}</option>
+                @else
                 <option value="{{$category->category_name}}">{{$category->category_name}}</option>
                 @endif
             @endforeach
-            <option value="">Select a category</option>
-            @foreach($categories->all() as $category)
-                    @if($post->category_id != $category->id)
-                        <option value="{{$category->category_name}}">{{$category->category_name}}</option>
-                    @endif
-                @endforeach
+
         </select><br/>
         @if($post->imagePath)
             <div class="col-md-3">
