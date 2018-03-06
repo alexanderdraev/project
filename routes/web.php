@@ -15,20 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/////BASIC ROUTES WITHOUT AUTHORISATION AND AUTHENTICATION BEING CONSIDERED
 
 Route::prefix('users')->group(function (){
-    Route::get('/create', 'RegisterController@Create')->name('users.create'); //Create method may show users/register.blade.php
-    Route::post('/create', 'RegisterController@Store')->name('users.store'); //creates user, should redirect to index view
-    Route::get('/login','LoginController@Index')->name('users.login'); // show users/login.blade.php
-    Route::post('/login', 'LoginController@Check')->name('users.check');//login check
-    Route::get('/logout','LoginController@Logout')->name('users.logout'); // users/logout.blade.php
-    Route::get('/','UserController@Index')->name('users.index'); //may show all users?
-    Route::get('/{id}','UserController@Show')->name('users.show'); //user profile?
-    Route::get('/{id}/edit','UserController@Edit')->name('users.edit'); //registration form without password confirmation?
-    Route::put('/{id}/edit','UserController@Update')->name('users.update');
-    Route::delete('/{id}/delete','UserController@Destroy')->name('users.destroy'); //are you sure message?
-
+    Route::get('/{id}','Auth\UserController@Index')->name('users.index');
+    Route::get('/{id}/edit','Auth\UserController@Edit')->name('users.edit');
+    Route::put('/{id}/edit','Auth\UserController@Update')->name('users.update');
+    Route::delete('/{id}/delete','Auth\UserController@Destroy')->name('users.destroy');
+    Route::view('/create', 'users\register')->name('users.create');
+    Route::post('/create', 'Auth\RegisterController@Register')->name('users.store');
+    Route::view('/login', 'users\login')->name('users.login');
+    Route::post('/login','Auth\LoginController@Login')->name('login');
+    Route::post('/logout','Auth\LoginController@Logout')->name('logout');
 });
 Route::prefix('posts')->group(function (){
     Route::get('/create', 'PostController@Create')->name('posts.create');

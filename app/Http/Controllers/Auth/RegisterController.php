@@ -8,7 +8,7 @@ use App\Models\User;
 
 class RegisterController extends Controller
 {
-    public function StoreUser(Request $req)
+    public function Register(Request $req)
     {
     	$this->validate($req,[
     		'email' => 'required|email|max:191|unique:users,email',
@@ -25,7 +25,7 @@ class RegisterController extends Controller
     	
     	if($u->save())
     	{
-    		return redirect('login')->with('success','Log in now!');
+    		return redirect('users/login')->with('success','Log in now!');
     	}
 
     	return back()->with('error','Please try again!');

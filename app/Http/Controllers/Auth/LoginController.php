@@ -17,7 +17,7 @@ class LoginController extends Controller
     		'password' => 'min:6|max:32|required'
     	]);
 
-    	$user = User::where('email', $req->email)->first();
+    	$user = User::where('email', $req['email'])->first();
 
     	if(!$user)
     	{
@@ -31,7 +31,6 @@ class LoginController extends Controller
     		return redirect('posts');
     	}
 
-
     	return back()->with('error','Wrong Details!');
     }
 
@@ -39,6 +38,6 @@ class LoginController extends Controller
     {
     	Auth::logout();
 
-    	return redirect('login');
+    	return redirect()->route('users.login');
     }
 }
