@@ -15,7 +15,7 @@ class CategoryController extends Controller
     }
     public function Create()
     {
-        return view('categories.create');
+        return view('categories.create',['category'=>new Category()]);
     }
     public function Store(Request $req)
     {
@@ -45,10 +45,6 @@ class CategoryController extends Controller
         ]);
 
         $model = Category::where('id',$id)->first();
-        if (!$model) {
-            return redirect(404);
-        }
-
         $model->category_name = $req['category_name'];
 
         if ($model->save()) {

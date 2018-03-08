@@ -14,8 +14,9 @@ class AddPhotoToUserProfile extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->string('image_path')->after('remember_token');
+            $table->string('image_path')->after('remember_token')->default('null');
         });
+
     }
 
     /**
@@ -26,7 +27,7 @@ class AddPhotoToUserProfile extends Migration
     public function down()
     {
         Schema::table('users', function($table) {
-            $table->dropColumn('imagePath');
+            $table->dropColumn('image_path');
         });
     }
 }

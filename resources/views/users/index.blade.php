@@ -2,15 +2,32 @@
 
 @section('content')
     @include('messages')
-    @foreach($user as $u)
+    @if($id>0)
         <div>
+            {{$user->name}}
+        </div>
+        <div>
+            {{$user->email}}
+        </div>
+        <div>
+            {{$user->created_at}}
+        </div>
+        <div class="col-4">
+            <img src="{{ URL::to('/' . $user->image_path) ? URL::to('/' . $user->image_path) : url('images/defaultImage.png')}}" class="img-fluid" alt="image not found"/>
+        </div>
+    @else
+    @foreach($user as $u)
+        @if(Auth::check() && Auth::id()!=$u->id)
+            <div>
             {{$u->name}}
+        </div>
+        <div>
+            {{$u->email}}
         </div>
         <div>
             {{$u->created_at}}
         </div>
         @if(Auth::check() && Auth::user()->isAdmin)
-            <a href="{{route('users.edit', $u->id)}}" class="btn btn-info">Edit</a>
             <form method="POST" action="{{route('users.destroy', $u->id)}}">
                 {{csrf_field()}}
                 {{method_field('DELETE')}}
@@ -24,6 +41,9 @@
         <div class="col-4">
             <img src="{{ URL::to('/' . $u->image_path) ? URL::to('/' . $u->image_path) : url('images/defaultImage.png')}}" class="img-fluid" alt="image not found"/>
         </div>
+        @else
+        @endif
     @endforeach
+    @endif
 
 @endsection

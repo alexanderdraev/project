@@ -4,44 +4,52 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
-
+use Auth;
 class CommentController extends Controller
 {
 
-    public function Create($post_id,$user_id)
+    public function Store(Request $req,$id)
     {
-        //pass necessary parameter, not in this way probably
-        return view('comments.create',['post_id'=>$post_id,'user_id'=>$user_id]);
-    }
-    public function Store(Request $req)
-    {
-        $this->validate($req,[
-            'content'=>'required',
-            //post_id and user_id to be used to find their names
+        $this->validate($req, [
+            'content' => 'required',
         ]);
 
-
-        /*if(!Comment::create($model))
+        $model = $req->all();
+        $model['post_id'] =$id;
+        $model['user_id'] = Auth::id();
+       if(!Comment::create($model))
         {
-            return back()->with('message','error');                           TO BE FINISHED
+            return redirect()->route('posts.index',$id)->with('error','Can not add comment.');
+        }
+        return redirect()->route('posts.index',$id)->with('success','Comment added successfully.');
+    }
+    public function Update(Request $req,$id,$c_id)
+    {
+        $this->validate($req, [
+            'content' => 'required',
+        ]);
+
+        $model = Comment::where('id',$c_id)->first();
+        $model->content = $req['content'];
+        if(!$model->save())
+        {
+            return back()->with('error','Can not update comment.');
+        }
+        return back()->with('success','Comment updated successfully.');
+    }
+    public function Destroy($id,$c_id)
+    {
+        $comment = Comment::where('id',$c_id)->first();
+        if(!$comment)
+        {
+            return redirect(404);
         }
 
-        return back()->with('message','success');*/
-    }
-    public function Show()
-    {
+        if($comment->delete())
+        {
+            return back()->with('success','Comment deleted successfully.');
+        }
 
-    }
-    public function Edit($id)
-    {
-
-    }
-    public function Update(Request $req,$id)
-    {
-    }
-    public function Destroy($id)
-    {
-        $comment = Comment::where('id',$id)->first();
-        $comment->delete();
+        return back()->with('error','Could not delete comment.');
     }
 }

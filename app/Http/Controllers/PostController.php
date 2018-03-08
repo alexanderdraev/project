@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
@@ -13,26 +14,25 @@ class PostController extends Controller
 
     public function Index($id=null)
     {
-        if(!isset($id)) {
-            $posts = Post
-                ::join('categories', 'posts.category_id', '=', 'categories.id')
-                ->join('users', 'posts.user_id', '=', 'users.id')
-                ->select('posts.title', 'posts.content', 'categories.category_name', 'users.name', 'posts.updated_at', 'posts.imagePath')
-                ->get();
-        }
         if (isset($id)){
+            $post = Post::where('id',$id)->get()->first();
+            if(empty($post))
+            {
+                return redirect()->route('posts.index');
+            }
             $post = Post::where('id',$id)->get();
-            return view('posts.index', ['posts' => $post]);
+            $comments = Comment::where('post_id',$id)->get();
+            return view('posts.index', ['posts' => $post,'comments'=>$comments,'id'=>$id]);
         }
-        $posts = Post::paginate(5);
-        return view('posts.index', ['posts' => $posts]);
+        $posts = Post::all();
+        return view('posts.index', ['posts' => $posts,'comments'=>new Comment(),'id'=>$id]);
     }
 
     public function Create()
     {
         $categories = Category::all('id', 'category_name');
 
-        return view('posts.create', ['categories' => $categories,'post'=>new Post]);
+        return view('posts.create', ['categories' => $categories],['post'=>new Post()]);
     }
 
     public function Store(Request $req)
@@ -65,8 +65,11 @@ class PostController extends Controller
     public function Edit($id)
     {
         $post = Post::where('id', $id)->first();
-        $categories = Category::all('id', 'category_name');
-        return view('posts.create', ['post' => $post, 'categories' => $categories]);
+        if (Auth::check() && Auth::id()===$post->user_id){
+            $categories = Category::all('id', 'category_name');
+            return view('posts.create', ['post' => $post, 'categories' => $categories]);
+        }
+        return redirect()->route('posts.index')->with('error','You can not edit this post.');
     }
 
     public function Update(Request $req, $id)

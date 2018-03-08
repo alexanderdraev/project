@@ -8,9 +8,9 @@ class User extends Authenticatable
 {
     use Notifiable;
     protected $table = 'users';
-    protected $fillable = [ 'name', 'email', 'isAdmin'];
+    protected $fillable = [ 'name', 'email', 'isAdmin','password','image_path'];
     protected $hidden = [
-        'password', 'remember_token',
+         'remember_token',
     ];
     public function posts()
     {
