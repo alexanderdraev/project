@@ -62,7 +62,7 @@ class UserController extends Controller
         }
 
         if ($model->save()) {
-            return back()->with('success', 'User updated successfully.');
+            return redirect()->route('users.index')->with('success', 'User updated successfully.');
         }
         return back()->with('error', 'Could not update user.');
     }

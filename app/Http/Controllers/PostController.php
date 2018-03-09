@@ -52,14 +52,14 @@ class PostController extends Controller
         $file = $model['photo'];
         if ($file) {
             $fileName = str_random(5) . $file->getClientOriginalName();
-            $file->move('images', $fileName);
-            $model['imagePath'] = 'images' . DIRECTORY_SEPARATOR . $fileName;
+            $file->move('images'.DIRECTORY_SEPARATOR.'posts', $fileName);
+            $model['imagePath'] = 'images' . DIRECTORY_SEPARATOR. 'posts' . DIRECTORY_SEPARATOR . $fileName;
         }
         if (!Post::create($model)) {
             return back()->with('error', 'Could not create post.');
         }
 
-        return back()->with('success', 'Post added successfully.');
+        return redirect()->route('posts.index')->with('success', 'Post added successfully.');
     }
 
     public function Edit($id)
@@ -96,8 +96,8 @@ class PostController extends Controller
         if ($photo) {
             File::delete($model->imagePath);
             $fileName = str_random(5) . $photo->getClientOriginalName();
-            $photo->move('images', $fileName);
-            $model->imagePath = 'images' . DIRECTORY_SEPARATOR . $fileName;
+            $photo->move('images' . DIRECTORY_SEPARATOR. 'posts', $fileName);
+            $model->imagePath = 'images' . DIRECTORY_SEPARATOR .'posts' . DIRECTORY_SEPARATOR. $fileName;
         }
 
         if ($model->save()) {

@@ -12,8 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('about');
 });
+
+Route::get('/about', function() {
+    return view('about');
+})->name('about');
+
+
+// Contact
+Route::get('/contact', 'ContactController@showForm')->name('contact');
+Route::post('/contact', 'ContactController@sendForm')->name('contact');
+
+
 Route::group(['middleware'=>'auth'], function() {
 
     Route::prefix('users')->namespace('Auth')->group(function (){

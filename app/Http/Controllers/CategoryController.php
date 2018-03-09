@@ -30,7 +30,7 @@ class CategoryController extends Controller
             return back()->with('error','Can not create category.');
         }
 
-        return back()->with('success','Category added successfully.');
+        return redirect()->route('categories.index')->with('success','Category added successfully.');
     }
 
     public function Edit($id)

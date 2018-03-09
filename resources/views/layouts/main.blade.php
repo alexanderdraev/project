@@ -9,10 +9,26 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Simple Forum Portal - @yield('title')</title>
-
+    
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}"
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+
+    <style>
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: black;
+        text-align: center;
+      }
+      form.form-signing
+      {
+          margin-top: 200px;
+      }
+    </style>
           
     <!-- Scripts -->
     <script>
@@ -35,16 +51,38 @@
               <a class="nav-item nav-link {{ (\Request::route()->getName() == 'index') ? 'active' : '' }}" href="{{ asset('/') }}">Home</a>
               <a class="nav-item nav-link {{ (\Request::route()->getName() == 'about') ? 'active' : '' }}" href="{{ asset('/about') }}">About</a>
               <a class="nav-item nav-link {{ (\Request::route()->getName() == 'contact') ? 'active' : '' }}" href="{{ asset('/contact') }}">Contact</a>
+              <a class="nav-item nav-link" href="{{route('posts.index')}}">List Posts</a>
+            </div>
+             <div class="navbar-nav float-right" style="padding-left: 1200px">
+              
+            @auth
+
+            @if(Auth::user()->isAdmin === 1)
+                <a class="nav-item nav-link" href="{{route('posts.create')}}">Create Post</a>
+            @endif
+              <a class="nav-item nav-link" href="{{route('logout')}}">Logout</a>
+            @endauth
+
+            @guest
+              <a class="nav-item nav-link" href="{{route('login')}}">
+                  Login
+              </a>
+              <a class="nav-item nav-link" href="{{route('users.create')}}">
+                  Register
+              </a>
+            @endguest
+            </div>
+
             </div>
           </div>
        </nav> 
     </div>
        
-    <div id="content" class="container bg-light">
+      <div class="container"><!-- class="container bg-light" -->
          @yield('content')
-    </div>
+        </div>
     
-    <div id="footer" class="bg-light">
+    <div class="footer" class="bg-light">
         <footer>
         &copy; 2018 SNP by Niya Dryankova, Alex Draev and Kiril Datkov
         </footer>
